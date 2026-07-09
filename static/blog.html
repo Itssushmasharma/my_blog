@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full antialiased scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Technical blog posts, tutorials, and deep dives by Sushma Sharma on Python coding, machine learning models, cloud security, and UI/UX design.">
+  <title>Insights & Technical Blog | Sushma Sharma</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" href="../public/favicon.ico" type="image/x-icon">
+  
+  <!-- Google Fonts: Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Tailwind CSS Play CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'background-dark': '#0B0C0E',
+            'secondary-dark': '#121418',
+            'primary-cyan': '#D5A153',
+            'accent-purple': '#0D5347',
+            'burgundy': '#581C2E',
+            'text-muted': '#94A3B8',
+          },
+          fontFamily: {
+            sans: ['Outfit', 'sans-serif'],
+            display: ['Cabinet Grotesk', 'Outfit', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="min-h-full bg-background-dark text-white flex flex-col selection:bg-primary-cyan/30 selection:text-white">
+
+  <!-- 1. Page Preloader Overlay -->
+  <div id="page-loader" class="loader-wrapper" style="clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);">
+    <div class="flex flex-col items-center max-w-xs w-full px-4">
+      <div id="loader-text-wrapper" class="text-white font-display text-2xl font-bold tracking-widest mb-6 text-center select-none">
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-cyan to-accent-purple">
+          SUSHMA SHARMA
+        </span>
+        <div class="text-[10px] text-text-muted mt-2 tracking-[0.4em] uppercase font-sans">
+          Technical Blog
+        </div>
+      </div>
+      
+      <!-- Progress line -->
+      <div class="relative w-full h-[2px] bg-white/10 rounded-full overflow-hidden mb-3">
+        <div id="loader-progress-line" class="absolute top-0 left-0 h-full bg-gradient-to-r from-primary-cyan to-accent-purple rounded-full origin-left transition-transform duration-200" style="transform: scaleX(0); width: 100%;"></div>
+      </div>
+      
+      <div id="loader-progress-text" class="text-primary-cyan font-display text-sm tracking-wider font-semibold self-end select-none">
+        0%
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Custom Cursor Follower -->
+  <div id="custom-cursor" class="custom-cursor"></div>
+  <div id="custom-cursor-follower" class="custom-cursor-follower"></div>
+
+  <!-- 3. Canvas Interactive Background Particles -->
+  <canvas id="canvas-particles" class="fixed inset-0 w-full h-full pointer-events-none z-0" style="opacity: 0.8;"></canvas>
+
+  <!-- 4. Navbar Header -->
+  <header id="navbar-header" class="fixed top-0 left-0 w-full z-40 transition-all duration-500 border-b bg-transparent border-transparent py-6 print:hidden">
+    <div class="container mx-auto px-6 md:px-12 flex justify-between items-center">
+      <!-- Logo -->
+      <a href="index.html" class="text-white font-display font-bold tracking-widest text-lg md:text-xl select-none">
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-cyan to-accent-purple">
+          SUSHMA SHARMA
+        </span>
+      </a>
+      
+      <!-- Desktop Links -->
+      <nav class="hidden lg:flex items-center gap-8">
+        <a href="index.html" class="text-xs font-semibold uppercase tracking-wider text-text-muted hover:text-white transition-colors duration-300">Home</a>
+        <a href="index.html#about" class="text-xs font-semibold uppercase tracking-wider text-text-muted hover:text-white transition-colors duration-300">About</a>
+        <a href="index.html#skills" class="text-xs font-semibold uppercase tracking-wider text-text-muted hover:text-white transition-colors duration-300">Skills</a>
+        <a href="index.html#projects" class="text-xs font-semibold uppercase tracking-wider text-text-muted hover:text-white transition-colors duration-300">Projects</a>
+        <a href="index.html#services" class="text-xs font-semibold uppercase tracking-wider text-text-muted hover:text-white transition-colors duration-300">Services</a>
+        <a href="blog.html" class="text-xs font-semibold uppercase tracking-wider text-primary-cyan font-bold transition-colors duration-300">Blog</a>
+        <a href="resume.html" class="text-xs font-semibold uppercase tracking-wider text-text-muted hover:text-white transition-colors duration-300">Resume</a>
+        <a href="index.html#contact" class="text-xs font-semibold uppercase tracking-wider text-text-muted hover:text-white transition-colors duration-300">Contact</a>
+      </nav>
+
+      <!-- Desktop CTA -->
+      <div class="hidden lg:flex items-center">
+        <a href="index.html#contact" class="flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-white/5 hover:bg-primary-cyan/15 hover:text-primary-cyan border border-white/10 text-xs font-bold text-white transition-all duration-300">
+          <span>Let's Talk</span>
+          <i data-lucide="arrow-up-right" class="w-3 h-3"></i>
+        </a>
+      </div>
+
+      <!-- Mobile menu button -->
+      <button onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-full bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-colors duration-300">
+        <i id="mobile-menu-open-icon" data-lucide="menu" class="w-4.5 h-4.5"></i>
+        <i id="mobile-menu-close-icon" data-lucide="x" class="w-4.5 h-4.5" style="display: none;"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu -->
+  <div id="mobile-menu" class="fixed inset-x-0 top-[70px] bg-background-dark/95 backdrop-blur-2xl border-b border-white/10 py-8 px-6 z-30 lg:hidden flex flex-col gap-6" style="display: none; opacity: 0; transform: translateY(-20px); transition: all 0.3s ease;">
+    <div class="flex flex-col gap-4">
+      <a href="index.html" class="text-white text-lg font-display font-semibold hover:text-primary-cyan transition-colors duration-300">Home</a>
+      <a href="index.html#about" class="text-white text-lg font-display font-semibold hover:text-primary-cyan transition-colors duration-300">About</a>
+      <a href="index.html#skills" class="text-white text-lg font-display font-semibold hover:text-primary-cyan transition-colors duration-300">Skills</a>
+      <a href="index.html#projects" class="text-white text-lg font-display font-semibold hover:text-primary-cyan transition-colors duration-300">Projects</a>
+      <a href="index.html#services" class="text-white text-lg font-display font-semibold hover:text-primary-cyan transition-colors duration-300">Services</a>
+      <a href="blog.html" class="text-white text-lg font-display font-semibold hover:text-primary-cyan transition-colors duration-300">Blog</a>
+      <a href="resume.html" class="text-white text-lg font-display font-semibold hover:text-primary-cyan transition-colors duration-300">Resume</a>
+      <a href="index.html#contact" class="text-white text-lg font-display font-semibold hover:text-primary-cyan transition-colors duration-300">Contact</a>
+    </div>
+    <a href="index.html#contact" onclick="toggleMobileMenu()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-primary-cyan to-accent-purple text-background-dark font-bold text-sm text-center block shadow-lg active:scale-95 transition-all duration-300">
+      Let's Talk
+    </a>
+  </div>
+
+  <!-- Main View -->
+  <main class="min-h-screen bg-background-dark pt-28 pb-16 grid-overlay relative flex-grow">
+    <!-- Glow highlights -->
+    <div class="absolute right-0 top-1/4 w-96 h-96 bg-primary-cyan/5 rounded-full blur-[100px] pointer-events-none"></div>
+    <div class="absolute left-0 bottom-1/4 w-80 h-80 bg-accent-purple/5 rounded-full blur-[100px] pointer-events-none"></div>
+
+    <div class="container mx-auto px-6 md:px-12 relative z-10">
+      <!-- Breadcrumb -->
+      <div class="flex items-center gap-2 text-xs text-text-muted mb-8 select-none">
+        <a href="index.html" class="hover:text-primary-cyan transition-colors duration-300">Home</a>
+        <span>/</span>
+        <span class="text-white">Blog</span>
+      </div>
+
+      <!-- Header Title -->
+      <div class="max-w-3xl mb-16">
+        <h1 class="text-4xl md:text-5xl font-display font-bold text-white mb-6">Technical Blog & Insights</h1>
+        <p class="text-text-muted text-sm md:text-base leading-relaxed max-w-2xl font-light">
+          Sharing deep dives, code tutorials, architecture structures, and design thoughts on AI/ML, Python coding, and UI/UX implementation.
+        </p>
+      </div>
+
+      <!-- Blog Search & Category Bar Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
+        <!-- Search and Category filters -->
+        <div class="lg:col-span-8 space-y-6">
+          <div class="flex flex-col md:flex-row gap-4 items-center justify-between">
+            
+            <!-- Category buttons list -->
+            <div class="flex flex-wrap gap-2 w-full md:w-auto">
+              <button data-cat="all" class="blog-cat-btn px-4 py-2 rounded-full border text-xs font-semibold tracking-wider transition-all duration-300 bg-primary-cyan border-primary-cyan text-background-dark shadow-[0_0_15px_rgba(0,229,255,0.25)]">All</button>
+              <button data-cat="AI" class="blog-cat-btn px-4 py-2 rounded-full border text-xs font-semibold tracking-wider transition-all duration-300 bg-white/5 border-white/10 text-white hover:bg-white/10">Artificial Intelligence</button>
+              <button data-cat="Python" class="blog-cat-btn px-4 py-2 rounded-full border text-xs font-semibold tracking-wider transition-all duration-300 bg-white/5 border-white/10 text-white hover:bg-white/10">Python</button>
+              <button data-cat="UI" class="blog-cat-btn px-4 py-2 rounded-full border text-xs font-semibold tracking-wider transition-all duration-300 bg-white/5 border-white/10 text-white hover:bg-white/10">UI UX</button>
+            </div>
+            
+            <!-- Search bar input -->
+            <div class="relative w-full md:w-80">
+              <input type="text" id="blog-search-field" placeholder="Search articles..." class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white/5 border border-white/10 focus:border-primary-cyan/50 focus:bg-white/10 outline-none text-xs text-white transition-all duration-300">
+              <i data-lucide="search" class="absolute left-3.5 top-3 w-4 h-4 text-text-muted"></i>
+            </div>
+
+          </div>
+
+          <!-- Dynamic posts list -->
+          <div id="blog-posts-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6 min-h-[300px]">
+            
+            <!-- Post 1 -->
+            <div data-category="AI" class="blog-post-card glass-panel p-6 rounded-3xl flex flex-col justify-between hover:border-primary-cyan/25 transition-all duration-500">
+              <div>
+                <div class="flex items-center gap-4 text-[10px] text-text-muted font-mono mb-4">
+                  <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3 h-3"></i> July 5, 2026</span>
+                  <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> 6 min read</span>
+                </div>
+                <span class="text-[9px] uppercase font-mono px-2 py-0.5 rounded bg-primary-cyan/10 border border-primary-cyan/20 text-primary-cyan">Artificial Intelligence</span>
+                <h3 class="text-xl font-bold text-white mt-4 mb-3 hover:text-primary-cyan transition-colors">
+                  <a href="blog-post-1.html">How We Built a Cloud Insider Attack Detection System using Python and ML</a>
+                </h3>
+                <p class="text-text-muted text-xs font-light leading-relaxed mb-6">
+                  A technical deep dive into identifying anomalies in user behaviors using Django endpoints and Scikit-Learn classifiers.
+                </p>
+              </div>
+              <div class="flex flex-wrap gap-1.5 pt-4 border-t border-white/5">
+                <span class="text-[9px] font-mono text-white/50 bg-white/3 px-2 py-0.5 rounded border border-white/3">Python</span>
+                <span class="text-[9px] font-mono text-white/50 bg-white/3 px-2 py-0.5 rounded border border-white/3">Machine Learning</span>
+                <span class="text-[9px] font-mono text-white/50 bg-white/3 px-2 py-0.5 rounded border border-white/3">Django</span>
+              </div>
+            </div>
+
+            <!-- Post 2 -->
+            <div data-category="Python" class="blog-post-card glass-panel p-6 rounded-3xl flex flex-col justify-between hover:border-primary-cyan/25 transition-all duration-500">
+              <div>
+                <div class="flex items-center gap-4 text-[10px] text-text-muted font-mono mb-4">
+                  <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3 h-3"></i> July 1, 2026</span>
+                  <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> 5 min read</span>
+                </div>
+                <span class="text-[9px] uppercase font-mono px-2 py-0.5 rounded bg-primary-cyan/10 border border-primary-cyan/20 text-primary-cyan">Python</span>
+                <h3 class="text-xl font-bold text-white mt-4 mb-3 hover:text-primary-cyan transition-colors">
+                  <a href="blog-post-2.html">Deep Dive: Real-time Object Detection with YOLO and OpenCV</a>
+                </h3>
+                <p class="text-text-muted text-xs font-light leading-relaxed mb-6">
+                  Optimizing YOLOv8 convolutional weights using frame interpolation for low-compute edge deployment.
+                </p>
+              </div>
+              <div class="flex flex-wrap gap-1.5 pt-4 border-t border-white/5">
+                <span class="text-[9px] font-mono text-white/50 bg-white/3 px-2 py-0.5 rounded border border-white/3">Python</span>
+                <span class="text-[9px] font-mono text-white/50 bg-white/3 px-2 py-0.5 rounded border border-white/3">YOLO</span>
+                <span class="text-[9px] font-mono text-white/50 bg-white/3 px-2 py-0.5 rounded border border-white/3">OpenCV</span>
+              </div>
+            </div>
+
+            <!-- Post 3 -->
+            <div data-category="UI" class="blog-post-card glass-panel p-6 rounded-3xl flex flex-col justify-between hover:border-primary-cyan/25 transition-all duration-500">
+              <div>
+                <div class="flex items-center gap-4 text-[10px] text-text-muted font-mono mb-4">
+                  <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3 h-3"></i> June 25, 2026</span>
+                  <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> 4 min read</span>
+                </div>
+                <span class="text-[9px] uppercase font-mono px-2 py-0.5 rounded bg-primary-cyan/10 border border-primary-cyan/20 text-primary-cyan">UI UX</span>
+                <h3 class="text-xl font-bold text-white mt-4 mb-3 hover:text-primary-cyan transition-colors">
+                  <a href="blog-post-3.html">Modern UI/UX Design Principles: Glassmorphism and Micro-interactions</a>
+                </h3>
+                <p class="text-text-muted text-xs font-light leading-relaxed mb-6">
+                  How to craft stunning developer portfolio cards and digital interfaces with HSL coloring and blur layers.
+                </p>
+              </div>
+              <div class="flex flex-wrap gap-1.5 pt-4 border-t border-white/5">
+                <span class="text-[9px] font-mono text-white/50 bg-white/3 px-2 py-0.5 rounded border border-white/3">UI UX</span>
+                <span class="text-[9px] font-mono text-white/50 bg-white/3 px-2 py-0.5 rounded border border-white/3">Figma</span>
+                <span class="text-[9px] font-mono text-white/50 bg-white/3 px-2 py-0.5 rounded border border-white/3">Web Design</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Right Side: Sidebar, Newsletter & Tags -->
+        <div class="lg:col-span-4 space-y-8">
+          <!-- Newsletter form card -->
+          <div class="glass-panel p-8 rounded-3xl bg-secondary-dark/50">
+            <div class="w-10 h-10 rounded-2xl bg-primary-cyan/10 border border-primary-cyan/20 text-primary-cyan flex items-center justify-center mb-6">
+              <i data-lucide="rss" class="w-5 h-5"></i>
+            </div>
+            <h4 class="text-lg font-bold text-white mb-2">Subscribe to Insights</h4>
+            <p class="text-text-muted text-xs font-light leading-relaxed mb-6">
+              Join the technical newsletter and receive deep-dive tutorials, system design papers, and design tips directly in your inbox.
+            </p>
+            
+            <div id="newsletter-success-box" style="display: none;" class="p-4 bg-primary-cyan/10 border border-primary-cyan/20 rounded-2xl flex items-center gap-3 mb-6">
+              <i data-lucide="check-circle" class="w-5 h-5 text-primary-cyan flex-shrink-0 animate-bounce"></i>
+              <span class="text-[11px] text-white font-medium">Successfully Subscribed!</span>
+            </div>
+
+            <form id="newsletter-form" class="space-y-3">
+              <input type="email" id="newsletter-email" required placeholder="name@email.com" class="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-primary-cyan/50 focus:bg-white/10 outline-none text-xs text-white transition-all duration-300">
+              <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-primary-cyan to-accent-purple text-background-dark font-bold text-xs uppercase tracking-wider shadow-lg active:scale-95 transition-all duration-300">
+                Subscribe
+              </button>
+            </form>
+          </div>
+
+          <!-- Popular Tags widget -->
+          <div class="glass-panel p-8 rounded-3xl bg-secondary-dark/50">
+            <h4 class="text-sm uppercase font-mono tracking-widest text-white mb-4">Popular Tags</h4>
+            <div class="flex flex-wrap gap-2">
+              <a href="#" class="text-[10px] font-mono px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 hover:border-primary-cyan hover:text-primary-cyan transition-colors">Python</a>
+              <a href="#" class="text-[10px] font-mono px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 hover:border-primary-cyan hover:text-primary-cyan transition-colors">YOLO</a>
+              <a href="#" class="text-[10px] font-mono px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 hover:border-primary-cyan hover:text-primary-cyan transition-colors">OpenCV</a>
+              <a href="#" class="text-[10px] font-mono px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 hover:border-primary-cyan hover:text-primary-cyan transition-colors">Django</a>
+              <a href="#" class="text-[10px] font-mono px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 hover:border-primary-cyan hover:text-primary-cyan transition-colors">Machine Learning</a>
+              <a href="#" class="text-[10px] font-mono px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 hover:border-primary-cyan hover:text-primary-cyan transition-colors">UI UX</a>
+              <a href="#" class="text-[10px] font-mono px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 hover:border-primary-cyan hover:text-primary-cyan transition-colors">Figma</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- 13. Brand Footer Section -->
+  <footer class="bg-secondary-dark/60 border-t border-white/5 py-12 relative z-10 print:hidden">
+    <div class="container mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-between items-center gap-6">
+      <!-- Brand details -->
+      <div class="flex flex-col items-center md:items-start text-center md:text-left">
+        <span class="text-white font-display font-bold tracking-widest text-lg">SUSHMA SHARMA</span>
+        <p class="text-[10px] text-text-muted mt-1 uppercase font-sans tracking-[0.2em] font-light">
+          Creativity &bull; Code &bull; Intelligence
+        </p>
+      </div>
+
+      <!-- Copy details -->
+      <div class="text-xs text-text-muted flex items-center gap-1 select-none order-2 md:order-2">
+        <span>&copy; 2026 Sushma Sharma. Made with</span>
+        <i data-lucide="heart" class="text-red-500 fill-red-500 w-3 h-3"></i>
+        <span>in India. All rights reserved.</span>
+      </div>
+
+      <!-- Social handles -->
+      <div class="flex items-center gap-4 order-1 md:order-3">
+        <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full bg-white/5 hover:bg-primary-cyan/10 hover:text-primary-cyan border border-white/10 flex items-center justify-center text-text-muted transition-all duration-300">
+          <i data-lucide="github" class="w-3.5 h-3.5"></i>
+        </a>
+        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full bg-white/5 hover:bg-primary-cyan/10 hover:text-primary-cyan border border-white/10 flex items-center justify-center text-text-muted transition-all duration-300">
+          <i data-lucide="linkedin" class="w-3.5 h-3.5"></i>
+        </a>
+        <a href="mailto:sushma.sharma.it@gmail.com" class="w-8 h-8 rounded-full bg-white/5 hover:bg-primary-cyan/10 hover:text-primary-cyan border border-white/10 flex items-center justify-center text-text-muted transition-all duration-300">
+          <i data-lucide="mail" class="w-3.5 h-3.5"></i>
+        </a>
+        <a href="tel:+910000000000" class="w-8 h-8 rounded-full bg-white/5 hover:bg-primary-cyan/10 hover:text-primary-cyan border border-white/10 flex items-center justify-center text-text-muted transition-all duration-300">
+          <i data-lucide="phone" class="w-3.5 h-3.5"></i>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- CDNs of libraries -->
+  
+  <!-- GSAP Core -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  
+  <!-- Lenis Scroll -->
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Confetti script -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  
+  <!-- Custom scripts app logic -->
+  <script src="app.js"></script>
+  
+  <!-- Search/Filtering script locally -->
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+    
+    // Blog local search & filters
+    const searchField = document.getElementById("blog-search-field");
+    const catButtons = document.querySelectorAll(".blog-cat-btn");
+    const postCards = document.querySelectorAll(".blog-post-card");
+    
+    let activeCat = "all";
+    let activeQuery = "";
+    
+    const filterPosts = () => {
+      postCards.forEach(card => {
+        const titleText = card.querySelector("h3").innerText.toLowerCase();
+        const excerptText = card.querySelector("p").innerText.toLowerCase();
+        const postCat = card.getAttribute("data-category");
+        
+        const matchesQuery = titleText.includes(activeQuery) || excerptText.includes(activeQuery);
+        const matchesCat = activeCat === "all" || postCat === activeCat;
+        
+        if (matchesQuery && matchesCat) {
+          card.style.display = "flex";
+          setTimeout(() => { card.style.opacity = "1"; card.style.transform = "scale(1)"; }, 50);
+        } else {
+          card.style.opacity = "0";
+          card.style.transform = "scale(0.95)";
+          setTimeout(() => { card.style.display = "none"; }, 200);
+        }
+      });
+    };
+    
+    searchField.addEventListener("input", (e) => {
+      activeQuery = e.target.value.toLowerCase();
+      filterPosts();
+    });
+    
+    catButtons.forEach(btn => {
+      btn.addEventListener("click", function() {
+        catButtons.forEach(b => {
+          b.classList.remove("bg-primary-cyan", "border-primary-cyan", "text-background-dark");
+          b.classList.add("bg-white/5", "border-white/10", "text-white");
+          b.style.boxShadow = "none";
+        });
+        
+        this.classList.remove("bg-white/5", "border-white/10", "text-white");
+        this.classList.add("bg-primary-cyan", "border-primary-cyan", "text-background-dark");
+        this.style.boxShadow = "0 0 15px rgba(0, 229, 255, 0.25)";
+        
+        activeCat = this.getAttribute("data-cat");
+        filterPosts();
+      });
+    });
+
+    // Newsletter submit simulation
+    const newsletterForm = document.getElementById("newsletter-form");
+    const newsletterSuccess = document.getElementById("newsletter-success-box");
+    
+    newsletterForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const email = document.getElementById("newsletter-email").value;
+      
+      if (email) {
+        newsletterForm.style.display = "none";
+        newsletterSuccess.style.display = "flex";
+        
+        // Confetti!
+        confetti({
+          particleCount: 50,
+          spread: 40,
+          origin: { y: 0.8 },
+          colors: ["#00E5FF", "#7C3AED"],
+        });
+      }
+    });
+  </script>
+</body>
+</html>

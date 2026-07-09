@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full antialiased scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Technical walkthrough on building an anomaly detection system for cloud insider threat detection using Django and Scikit-Learn.">
+  <title>Building a Cloud Insider Attack Detection System | Sushma Sharma Blog</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" href="../public/favicon.ico" type="image/x-icon">
+  
+  <!-- Google Fonts: Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Tailwind CSS Play CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'background-dark': '#0B0C0E',
+            'secondary-dark': '#121418',
+            'primary-cyan': '#D5A153',
+            'accent-purple': '#0D5347',
+            'burgundy': '#581C2E',
+            'text-muted': '#94A3B8',
+          },
+          fontFamily: {
+            sans: ['Outfit', 'sans-serif'],
+            display: ['Cabinet Grotesk', 'Outfit', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="min-h-full bg-background-dark text-white flex flex-col selection:bg-primary-cyan/30 selection:text-white">
+
+  <!-- 1. Page Preloader Overlay -->
+  <div id="page-loader" class="loader-wrapper print:hidden" style="clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);">
+    <div class="flex flex-col items-center max-w-xs w-full px-4">
+      <div id="loader-text-wrapper" class="text-white font-display text-2xl font-bold tracking-widest mb-6 text-center select-none">
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-cyan to-accent-purple">
+          SUSHMA SHARMA
+        </span>
+        <div class="text-[10px] text-text-muted mt-2 tracking-[0.4em] uppercase font-sans">
+          Technical Article
+        </div>
+      </div>
+      
+      <!-- Progress line -->
+      <div class="relative w-full h-[2px] bg-white/10 rounded-full overflow-hidden mb-3">
+        <div id="loader-progress-line" class="absolute top-0 left-0 h-full bg-gradient-to-r from-primary-cyan to-accent-purple rounded-full origin-left transition-transform duration-200" style="transform: scaleX(0); width: 100%;"></div>
+      </div>
+      
+      <div id="loader-progress-text" class="text-primary-cyan font-display text-sm tracking-wider font-semibold self-end select-none">
+        0%
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Custom Cursor Follower -->
+  <div id="custom-cursor" class="custom-cursor print:hidden"></div>
+  <div id="custom-cursor-follower" class="custom-cursor-follower print:hidden"></div>
+
+  <!-- 3. Canvas Interactive Background Particles -->
+  <canvas id="canvas-particles" class="fixed inset-0 w-full h-full pointer-events-none z-0 print:hidden" style="opacity: 0.8;"></canvas>
+
+  <!-- 4. Navbar Header -->
+  <header id="navbar-header" class="fixed top-0 left-0 w-full z-40 transition-all duration-500 border-b bg-transparent border-transparent py-6 print:hidden">
+    <div class="container mx-auto px-6 md:px-12 flex justify-between items-center">
+      <!-- Logo -->
+      <a href="index.html" class="text-white font-display font-bold tracking-widest text-lg md:text-xl select-none">
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-cyan to-accent-purple">
+          SUSHMA SHARMA
+        </span>
+      </a>
+      
+      <!-- Desktop Links -->
+      <nav class="hidden lg:flex items-center gap-8">
+        <a href="index.html" class="text-xs font-semibold uppercase tracking-wider text-text-muted hover:text-white transition-colors duration-300">Home</a>
+        <a href="index.html#about" class="text-xs font-semibold uppercase tracking-wider text-text-muted hover:text-white transition-colors duration-300">About</a>
+        <a href="index.html#skills" class="text-xs font-semibold uppercase tracking-wider text-text-muted hover:text-white transition-colors duration-300">Skills</a>
+        <a href="index.html#projects" class="text-xs font-semibold uppercase tracking-wider text-text-muted hover:text-white transition-colors duration-300">Projects</a>
+        <a href="index.html#services" class="text-xs font-semibold uppercase tracking-wider text-text-muted hover:text-white transition-colors duration-300">Services</a>
+        <a href="blog.html" class="text-xs font-semibold uppercase tracking-wider text-primary-cyan font-bold transition-colors duration-300">Blog</a>
+        <a href="resume.html" class="text-xs font-semibold uppercase tracking-wider text-text-muted hover:text-white transition-colors duration-300">Resume</a>
+        <a href="index.html#contact" class="text-xs font-semibold uppercase tracking-wider text-text-muted hover:text-white transition-colors duration-300">Contact</a>
+      </nav>
+
+      <!-- Desktop CTA -->
+      <div class="hidden lg:flex items-center">
+        <a href="index.html#contact" class="flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-white/5 hover:bg-primary-cyan/15 hover:text-primary-cyan border border-white/10 text-xs font-bold text-white transition-all duration-300">
+          <span>Let's Talk</span>
+          <i data-lucide="arrow-up-right" class="w-3 h-3"></i>
+        </a>
+      </div>
+
+      <!-- Mobile menu button -->
+      <button onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-full bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-colors duration-300">
+        <i id="mobile-menu-open-icon" data-lucide="menu" class="w-4.5 h-4.5"></i>
+        <i id="mobile-menu-close-icon" data-lucide="x" class="w-4.5 h-4.5" style="display: none;"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu -->
+  <div id="mobile-menu" class="fixed inset-x-0 top-[70px] bg-background-dark/95 backdrop-blur-2xl border-b border-white/10 py-8 px-6 z-30 lg:hidden flex flex-col gap-6" style="display: none; opacity: 0; transform: translateY(-20px); transition: all 0.3s ease;">
+    <div class="flex flex-col gap-4">
+      <a href="index.html" class="text-white text-lg font-display font-semibold hover:text-primary-cyan transition-colors duration-300">Home</a>
+      <a href="index.html#about" class="text-white text-lg font-display font-semibold hover:text-primary-cyan transition-colors duration-300">About</a>
+      <a href="index.html#skills" class="text-white text-lg font-display font-semibold hover:text-primary-cyan transition-colors duration-300">Skills</a>
+      <a href="index.html#projects" class="text-white text-lg font-display font-semibold hover:text-primary-cyan transition-colors duration-300">Projects</a>
+      <a href="index.html#services" class="text-white text-lg font-display font-semibold hover:text-primary-cyan transition-colors duration-300">Services</a>
+      <a href="blog.html" class="text-white text-lg font-display font-semibold hover:text-primary-cyan transition-colors duration-300">Blog</a>
+      <a href="resume.html" class="text-white text-lg font-display font-semibold hover:text-primary-cyan transition-colors duration-300">Resume</a>
+      <a href="index.html#contact" class="text-white text-lg font-display font-semibold hover:text-primary-cyan transition-colors duration-300">Contact</a>
+    </div>
+    <a href="index.html#contact" onclick="toggleMobileMenu()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-primary-cyan to-accent-purple text-background-dark font-bold text-sm text-center block shadow-lg active:scale-95 transition-all duration-300">
+      Let's Talk
+    </a>
+  </div>
+
+  <!-- Main View -->
+  <main class="min-h-screen bg-background-dark pt-28 pb-16 grid-overlay relative flex-grow">
+    <!-- Glow highlights -->
+    <div class="absolute right-0 top-1/4 w-96 h-96 bg-primary-cyan/5 rounded-full blur-[100px] pointer-events-none"></div>
+    <div class="absolute left-0 bottom-1/4 w-80 h-80 bg-accent-purple/5 rounded-full blur-[100px] pointer-events-none"></div>
+
+    <div class="container mx-auto px-6 md:px-12 max-w-4xl relative z-10">
+      <!-- Breadcrumb -->
+      <div class="flex items-center gap-2 text-xs text-text-muted mb-8 select-none">
+        <a href="index.html" class="hover:text-primary-cyan transition-colors duration-300">Home</a>
+        <span>/</span>
+        <a href="blog.html" class="hover:text-primary-cyan transition-colors duration-300">Blog</a>
+        <span>/</span>
+        <span class="text-white">Article</span>
+      </div>
+
+      <!-- Post content card wrapper -->
+      <div class="glass-panel p-8 md:p-12 rounded-[32px] bg-secondary-dark/70 backdrop-blur-xl">
+        
+        <!-- Post Header -->
+        <div class="border-b border-white/5 pb-8 mb-8">
+          <div class="flex items-center gap-4 text-[11px] text-text-muted font-mono mb-4">
+            <span class="flex items-center gap-1.5"><i data-lucide="calendar" class="w-3.5 h-3.5"></i> July 5, 2026</span>
+            <span class="flex items-center gap-1.5"><i data-lucide="clock" class="w-3.5 h-3.5"></i> 6 min read</span>
+            <span class="flex items-center gap-1.5"><i data-lucide="user" class="w-3.5 h-3.5"></i> Sushma Sharma</span>
+          </div>
+          
+          <span class="text-[10px] uppercase font-mono px-3 py-1 rounded bg-primary-cyan/10 border border-primary-cyan/20 text-primary-cyan font-bold">
+            Artificial Intelligence
+          </span>
+          
+          <h1 class="text-3xl md:text-4xl font-display font-bold text-white mt-6 leading-tight">
+            How We Built a Cloud Insider Attack Detection System using Python and ML
+          </h1>
+        </div>
+
+        <!-- Article text body -->
+        <div class="text-text-muted text-sm md:text-base leading-relaxed font-light space-y-6">
+          <p>
+            Insider threats are one of the most difficult challenges in modern cloud security. Unlike external intruders, malicious internal users already possess legitimate login tokens, credentials, and network access parameters. Traditional rule-based security nodes often fail to flag abnormal behaviors because development cycles naturally shift parameters periodically.
+          </p>
+          
+          <h2 class="text-xl font-bold text-white font-display pt-4">1. Collecting Telemetry Audits</h2>
+          <p>
+            The foundation of our detection architecture is capturing telemetry. We set up custom scripts on our instances to capture shell log logs, API request sequences, data egress volumes, and active session duration cycles. These metrics were pushed to a centralized PostgreSQL storage node using secure Django backend endpoints.
+          </p>
+          
+          <blockquote class="border-l-2 border-primary-cyan pl-4 py-1 text-white italic font-normal my-6">
+            "By profiling behavioral deviations rather than static signatures, our models identify malicious intentions even when normal login channels are used."
+          </blockquote>
+
+          <h2 class="text-xl font-bold text-white font-display pt-4">2. Modeling with Isolation Forests</h2>
+          <p>
+            To separate standard engineering habits from anomalous acts, we trained an unsupervised <strong>Isolation Forest</strong> algorithm in Scikit-Learn. Isolation forests isolate outliers by randomly selecting a feature and split value. Because anomalies require fewer splits to isolate, they appear closer to the root of trees.
+          </p>
+          
+          <pre class="bg-black/50 p-4 rounded-xl border border-white/5 text-xs text-primary-cyan font-mono overflow-x-auto my-6"><code>from sklearn.ensemble import IsolationForest
+import numpy as np
+
+# Sample telemetry values: [session_length, command_frequency, data_egress_mb]
+X_train = np.array([[120, 15, 5], [45, 10, 2], [300, 45, 15], [10, 2, 0.5]])
+
+model = IsolationForest(contamination=0.05, random_state=42)
+model.fit(X_train)</code></pre>
+
+          <h2 class="text-xl font-bold text-white font-display pt-4">3. Results & Dashboards</h2>
+          <p>
+            When scores crossed the threshold value, real-time alerts were dispatched to security admins via WebSockets. We achieved a 94.2% threat detection score on standard simulated threat suites with reduced overhead analysis delays.
+          </p>
+        </div>
+
+        <!-- Back to blog link -->
+        <div class="border-t border-white/5 pt-8 mt-10">
+          <a href="blog.html" class="flex items-center gap-1 text-xs text-primary-cyan hover:underline">
+            <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i> Back to Blog Articles
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- 13. Brand Footer Section -->
+  <footer class="bg-secondary-dark/60 border-t border-white/5 py-12 relative z-10 print:hidden">
+    <div class="container mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-between items-center gap-6">
+      <!-- Brand details -->
+      <div class="flex flex-col items-center md:items-start text-center md:text-left">
+        <span class="text-white font-display font-bold tracking-widest text-lg">SUSHMA SHARMA</span>
+        <p class="text-[10px] text-text-muted mt-1 uppercase font-sans tracking-[0.2em] font-light">
+          Creativity &bull; Code &bull; Intelligence
+        </p>
+      </div>
+
+      <!-- Copy details -->
+      <div class="text-xs text-text-muted flex items-center gap-1 select-none order-2 md:order-2">
+        <span>&copy; 2026 Sushma Sharma. Made with</span>
+        <i data-lucide="heart" class="text-red-500 fill-red-500 w-3 h-3"></i>
+        <span>in India. All rights reserved.</span>
+      </div>
+
+      <!-- Social handles -->
+      <div class="flex items-center gap-4 order-1 md:order-3">
+        <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full bg-white/5 hover:bg-primary-cyan/10 hover:text-primary-cyan border border-white/10 flex items-center justify-center text-text-muted transition-all duration-300">
+          <i data-lucide="github" class="w-3.5 h-3.5"></i>
+        </a>
+        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full bg-white/5 hover:bg-primary-cyan/10 hover:text-primary-cyan border border-white/10 flex items-center justify-center text-text-muted transition-all duration-300">
+          <i data-lucide="linkedin" class="w-3.5 h-3.5"></i>
+        </a>
+        <a href="mailto:sushma.sharma.it@gmail.com" class="w-8 h-8 rounded-full bg-white/5 hover:bg-primary-cyan/10 hover:text-primary-cyan border border-white/10 flex items-center justify-center text-text-muted transition-all duration-300">
+          <i data-lucide="mail" class="w-3.5 h-3.5"></i>
+        </a>
+        <a href="tel:+910000000000" class="w-8 h-8 rounded-full bg-white/5 hover:bg-primary-cyan/10 hover:text-primary-cyan border border-white/10 flex items-center justify-center text-text-muted transition-all duration-300">
+          <i data-lucide="phone" class="w-3.5 h-3.5"></i>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- CDNs of libraries -->
+  
+  <!-- GSAP Core -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  
+  <!-- Lenis Scroll -->
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Custom scripts app logic -->
+  <script src="app.js"></script>
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+  </script>
+</body>
+</html>

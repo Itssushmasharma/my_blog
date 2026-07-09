@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full antialiased scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Official developer portfolio and blog of Sushma Sharma. Python Developer, UI UX Designer, AI Engineer, Web Developer, and Digital Marketer.">
+  <title>Sushma Sharma | Creative Portfolio & Blog</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" href="../public/favicon.ico" type="image/x-icon">
+  
+  <!-- Google Fonts: Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Tailwind CSS Play CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'background-dark': '#0B0C0E',
+            'secondary-dark': '#121418',
+            'primary-cyan': '#D5A153',
+            'accent-purple': '#0D5347',
+            'burgundy': '#581C2E',
+            'text-muted': '#94A3B8',
+          },
+          fontFamily: {
+            sans: ['Outfit', 'sans-serif'],
+            display: ['Cabinet Grotesk', 'Outfit', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="min-h-full bg-background-dark text-white flex flex-col selection:bg-primary-cyan/30 selection:text-white">
+
+  <!-- 1. Page Preloader Overlay -->
+  <div id="page-loader" class="loader-wrapper" style="clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);">
+    <div class="flex flex-col items-center max-w-xs w-full px-4">
+      <div id="loader-text-wrapper" class="text-white font-display text-2xl font-bold tracking-widest mb-6 text-center select-none">
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-cyan to-accent-purple">
+          SUSHMA SHARMA
+        </span>
+        <div class="text-[10px] text-text-muted mt-2 tracking-[0.4em] uppercase font-sans">
+          Creative Portfolio
+        </div>
+      </div>
+      
+      <!-- Progress line -->
+      <div class="relative w-full h-[2px] bg-white/10 rounded-full overflow-hidden mb-3">
+        <div id="loader-progress-line" class="absolute top-0 left-0 h-full bg-gradient-to-r from-primary-cyan to-accent-purple rounded-full origin-left transition-transform duration-200" style="transform: scaleX(0); width: 100%;"></div>
+      </div>
+      
+      <div id="loader-progress-text" class="text-primary-cyan font-display text-sm tracking-wider font-semibold self-end select-none">
+        0%
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Custom Cursor Follower -->
+  <div id="custom-cursor" class="custom-cursor"></div>
+  <div id="custom-cursor-follower" class="custom-cursor-follower"></div>
+
+  <!-- 3. Canvas Interactive Background Particles -->
+  <canvas id="canvas-particles" class="fixed inset-0 w-full h-full pointer-events-none z-0" style="opacity: 0.8;"></canvas>
+
+  <!-- 4. Navbar Header -->
+  <header id="navbar-header" class="fixed top-0 left-0 w-full z-40 transition-all duration-500 border-b bg-transparent border-transparent py-6 print:hidden">
+    <div class="container mx-auto px-6 md:px-12 flex justify-between items-center">
+      <!-- Logo -->
+      <a href="index.html" class="text-white font-display font-bold tracking-widest text-lg md:text-xl select-none">
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-cyan to-accent-purple">
+          SUSHMA SHARMA
+        </span>
+      </a>
+      
+      <!-- Desktop Links -->
+      <nav class="hidden lg:flex items-center gap-8">
+        <a href="#top" class="text-xs font-semibold uppercase tracking-wider text-primary-cyan font-bold transition-colors duration-300">Home</a>
+        <a href="#about" class="text-xs font-semibold uppercase tracking-wider text-text-muted hover:text-white transition-colors duration-300">About</a>
+        <a href="#skills" class="text-xs font-semibold uppercase tracking-wider text-text-muted hover:text-white transition-colors duration-300">Skills</a>
+        <a href="#projects" class="text-xs font-semibold uppercase tracking-wider text-text-muted hover:text-white transition-colors duration-300">Projects</a>
+        <a href="#services" class="text-xs font-semibold uppercase tracking-wider text-text-muted hover:text-white transition-colors duration-300">Services</a>
+        <a href="blog.html" class="text-xs font-semibold uppercase tracking-wider text-text-muted hover:text-white transition-colors duration-300">Blog</a>
+        <a href="resume.html" class="text-xs font-semibold uppercase tracking-wider text-text-muted hover:text-white transition-colors duration-300">Resume</a>
+        <a href="#contact" class="text-xs font-semibold uppercase tracking-wider text-text-muted hover:text-white transition-colors duration-300">Contact</a>
+      </nav>
+
+      <!-- Desktop CTA -->
+      <div class="hidden lg:flex items-center">
+        <a href="#contact" class="flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-white/5 hover:bg-primary-cyan/15 hover:text-primary-cyan border border-white/10 text-xs font-bold text-white transition-all duration-300">
+          <span>Let's Talk</span>
+          <i data-lucide="arrow-up-right" class="w-3 h-3"></i>
+        </a>
+      </div>
+
+      <!-- Mobile menu button -->
+      <button onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-full bg-white/5 border border-white/10 text-white hover:bg-white/10 transition-colors duration-300">
+        <i id="mobile-menu-open-icon" data-lucide="menu" class="w-4.5 h-4.5"></i>
+        <i id="mobile-menu-close-icon" data-lucide="x" class="w-4.5 h-4.5" style="display: none;"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu -->
+  <div id="mobile-menu" class="fixed inset-x-0 top-[70px] bg-background-dark/95 backdrop-blur-2xl border-b border-white/10 py-8 px-6 z-30 lg:hidden flex flex-col gap-6" style="display: none; opacity: 0; transform: translateY(-20px); transition: all 0.3s ease;">
+    <div class="flex flex-col gap-4">
+      <a href="#top" class="text-white text-lg font-display font-semibold hover:text-primary-cyan transition-colors duration-300">Home</a>
+      <a href="#about" class="text-white text-lg font-display font-semibold hover:text-primary-cyan transition-colors duration-300">About</a>
+      <a href="#skills" class="text-white text-lg font-display font-semibold hover:text-primary-cyan transition-colors duration-300">Skills</a>
+      <a href="#projects" class="text-white text-lg font-display font-semibold hover:text-primary-cyan transition-colors duration-300">Projects</a>
+      <a href="#services" class="text-white text-lg font-display font-semibold hover:text-primary-cyan transition-colors duration-300">Services</a>
+      <a href="blog.html" class="text-white text-lg font-display font-semibold hover:text-primary-cyan transition-colors duration-300">Blog</a>
+      <a href="resume.html" class="text-white text-lg font-display font-semibold hover:text-primary-cyan transition-colors duration-300">Resume</a>
+      <a href="#contact" class="text-white text-lg font-display font-semibold hover:text-primary-cyan transition-colors duration-300">Contact</a>
+    </div>
+    <a href="#contact" onclick="toggleMobileMenu()" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-primary-cyan to-accent-purple text-background-dark font-bold text-sm text-center block shadow-lg active:scale-95 transition-all duration-300">
+      Let's Talk
+    </a>
+  </div>
+
+  <!-- Main view wrapper -->
+  <main id="top" class="flex-grow relative z-10">
+
+    <!-- 5. Hero Intro Section -->
+    <section class="relative min-h-screen flex items-center justify-center pt-24 pb-16 overflow-hidden grid-overlay">
+      <!-- Glow Effects in Background -->
+      <div class="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-primary-cyan/10 rounded-full blur-[100px] pointer-events-none"></div>
+      <div class="absolute bottom-1/4 right-1/4 translate-x-1/2 translate-y-1/2 w-96 h-96 bg-accent-purple/10 rounded-full blur-[120px] pointer-events-none"></div>
+      
+      <div class="container mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
+        <!-- Left Side Content -->
+        <div class="lg:col-span-7 flex flex-col items-start text-left order-2 lg:order-1">
+          <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-[11px] tracking-widest text-primary-cyan uppercase font-semibold mb-6">
+            <span class="w-2 h-2 rounded-full bg-primary-cyan animate-pulse"></span>
+            Available for Freelance & Remote Work
+          </div>
+
+          <h1 class="text-4xl md:text-6xl font-display font-bold tracking-tight text-white mb-4">
+            Hello, I'm <br>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-cyan via-white to-accent-purple">
+              Sushma Sharma
+            </span>
+          </h1>
+
+          <div class="h-10 md:h-12 text-xl md:text-2xl font-sans text-text-muted mb-8 font-medium flex items-center gap-2">
+            <span>a </span>
+            <span id="typewriter-text" class="text-white border-r-2 border-primary-cyan pr-1 font-semibold"></span>
+          </div>
+
+          <p class="text-text-muted text-sm md:text-base max-w-lg mb-10 leading-relaxed font-light">
+            Building Digital Experiences with Creativity, Code & Intelligence. Specialized in bridging the gap between sophisticated Python AI pipelines and stunning, pixel-perfect user interfaces.
+          </p>
+
+          <!-- Action CTAs -->
+          <div class="flex flex-wrap gap-4 mb-12">
+            <a href="#contact" class="px-8 py-3.5 rounded-full bg-gradient-to-r from-primary-cyan to-accent-purple text-background-dark font-semibold text-sm hover:scale-105 active:scale-95 shadow-[0_0_20px_rgba(0,229,255,0.3)] transition-all duration-300 pointer-events-auto">
+              Hire Me
+            </a>
+            <a href="#projects" class="px-8 py-3.5 rounded-full bg-white/5 hover:bg-white/10 text-white border border-white/10 text-sm hover:scale-105 active:scale-95 transition-all duration-300 pointer-events-auto backdrop-blur-md">
+              View Projects
+            </a>
+            <a href="resume.html" class="px-8 py-3.5 rounded-full bg-transparent hover:text-primary-cyan text-text-muted text-sm transition-all duration-300 flex items-center gap-1.5">
+              Resume Profile &rarr;
+            </a>
+          </div>
+
+          <!-- Social Links -->
+          <div class="flex items-center gap-6">
+            <span class="text-[10px] uppercase font-mono tracking-widest text-text-muted/65">
+              Connect:
+            </span>
+            <div class="flex gap-4">
+              <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary-cyan transition-colors duration-300">
+                <i data-lucide="github" class="w-5 h-5"></i>
+              </a>
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="text-text-muted hover:text-primary-cyan transition-colors duration-300">
+                <i data-lucide="linkedin" class="w-5 h-5"></i>
+              </a>
+              <a href="mailto:sushma.sharma.it@gmail.com" class="text-text-muted hover:text-primary-cyan transition-colors duration-300">
+                <i data-lucide="mail" class="w-5 h-5"></i>
+              </a>
+              <a href="tel:+910000000000" class="text-text-muted hover:text-primary-cyan transition-colors duration-300">
+                <i data-lucide="phone" class="w-5 h-5"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Side Portrait Frame -->
+        <div class="lg:col-span-5 flex justify-center order-1 lg:order-2">
+          <div class="relative w-[300px] h-[300px] md:w-[400px] md:h-[400px]">
+            <!-- Dashed borders -->
+            <div class="absolute inset-0 rounded-full border border-dashed border-primary-cyan/20 animate-[spin_60s_linear_infinite]"></div>
+            <div class="absolute -inset-4 rounded-full border border-accent-purple/20 animate-[spin_40s_linear_infinite_reverse]"></div>
+            <div class="absolute inset-2 rounded-full bg-gradient-to-br from-primary-cyan to-accent-purple opacity-20 blur-2xl animate-pulse"></div>
+
+            <!-- Avatar frame -->
+            <div class="absolute inset-2 rounded-full overflow-hidden border-2 border-white/10 bg-secondary-dark/80 backdrop-blur-md shadow-2xl">
+              <img src="sushma_profile.png" alt="Sushma Sharma" class="w-full h-full object-cover object-top select-none pointer-events-none hover:scale-105 transition-transform duration-700">
+            </div>
+
+            <!-- Tech Badges -->
+            <div class="absolute -top-4 -right-4 bg-secondary-dark/95 border border-white/10 px-3 py-1.5 rounded-2xl backdrop-blur-md flex items-center gap-1.5 shadow-lg select-none hover:border-primary-cyan transition-colors duration-300">
+              <span class="w-1.5 h-1.5 rounded-full bg-primary-cyan"></span>
+              <span class="text-[10px] font-mono text-white font-medium">Python AI</span>
+            </div>
+            <div class="absolute -bottom-4 -left-4 bg-secondary-dark/95 border border-white/10 px-3 py-1.5 rounded-2xl backdrop-blur-md flex items-center gap-1.5 shadow-lg select-none hover:border-accent-purple transition-colors duration-300">
+              <span class="w-1.5 h-1.5 rounded-full bg-accent-purple"></span>
+              <span class="text-[10px] font-mono text-white font-medium">UI / UX</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Floating Scroll down pointer -->
+      <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10">
+        <span class="text-[9px] uppercase font-mono tracking-widest text-text-muted/60 select-none">Explore</span>
+        <a href="#about" class="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-text-muted hover:text-primary-cyan hover:border-primary-cyan transition-all duration-300 animate-bounce">
+          <i data-lucide="arrow-down" class="w-3.5 h-3.5"></i>
+        </a>
+      </div>
+    </section>
+
+    <!-- 6. About Narrative & Timeline Section -->
+    <section id="about" class="py-24 relative overflow-hidden bg-secondary-dark/30">
+      <div class="absolute right-0 top-1/4 w-72 h-72 bg-accent-purple/5 rounded-full blur-[100px] pointer-events-none"></div>
+      
+      <div class="container mx-auto px-6 md:px-12 relative z-10">
+        <!-- Section Title -->
+        <div class="text-center max-w-2xl mx-auto mb-20">
+          <span class="text-[10px] tracking-[0.3em] text-primary-cyan uppercase font-bold">My Story</span>
+          <h2 class="text-3xl md:text-4xl font-display font-bold text-white mt-2 mb-6">
+            Crafting Digital Solutions with Passion and Logic
+          </h2>
+          <div class="w-16 h-[2px] bg-gradient-to-r from-primary-cyan to-accent-purple mx-auto"></div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start max-w-5xl mx-auto">
+          <!-- Text column -->
+          <div class="lg:col-span-5 flex flex-col gap-6">
+            <h3 class="text-2xl font-bold text-white font-display">A Bridge Between Design and AI</h3>
+            <p class="text-text-muted text-sm leading-relaxed font-light">
+              I am an information systems developer specializing in deep code optimizations, neural modeling, and responsive layout accessibility. My work is anchored on the principle that backend algorithms and visual structures must align perfectly.
+            </p>
+            <p class="text-text-muted text-sm leading-relaxed font-light">
+              Whether conducting academic studies inside cloud intrusion models or building high-fidelity Figma systems, I approach every build with logical rigour and creative intent.
+            </p>
+            
+            <div class="grid grid-cols-3 gap-4 mt-4 text-center">
+              <div class="glass-panel p-4 rounded-2xl">
+                <h4 class="text-2xl font-bold text-primary-cyan">M.Tech</h4>
+                <p class="text-[9px] uppercase tracking-wider text-text-muted mt-1">IT specialization</p>
+              </div>
+              <div class="glass-panel p-4 rounded-2xl">
+                <h4 class="text-2xl font-bold text-accent-purple">94%</h4>
+                <p class="text-[9px] uppercase tracking-wider text-text-muted mt-1">Threat detection</p>
+              </div>
+              <div class="glass-panel p-4 rounded-2xl">
+                <h4 class="text-2xl font-bold text-white">4+</h4>
+                <p class="text-[9px] uppercase tracking-wider text-text-muted mt-1">Years Coding</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Timeline column -->
+          <div class="lg:col-span-7 relative timeline-line pl-6">
+            
+            <!-- Timeline Item 1 -->
+            <div class="relative pl-8 pb-10 group">
+              <div class="absolute -left-[30px] top-1 flex items-center justify-center w-8 h-8 rounded-full border border-white/10 bg-secondary-dark text-primary-cyan group-hover:border-primary-cyan group-hover:bg-primary-cyan group-hover:text-background-dark transition-all duration-500 shadow-[0_0_15px_rgba(0,229,255,0)] group-hover:shadow-[0_0_15px_rgba(0,229,255,0.4)]">
+                <i data-lucide="briefcase" class="w-4 h-4"></i>
+              </div>
+              <div class="glass-panel-glow p-6 rounded-2xl relative overflow-hidden">
+                <span class="inline-block text-[10px] tracking-widest text-primary-cyan uppercase font-semibold mb-2">Jan 2024 - Jun 2024</span>
+                <h3 class="text-lg font-bold text-white mb-1 group-hover:text-primary-cyan transition-colors duration-300">UI UX Developer Intern</h3>
+                <h4 class="text-xs font-medium text-text-muted mb-3 flex items-center gap-2">
+                  <span>Bharti Airtel Digital</span>
+                  <span class="w-1.5 h-1.5 rounded-full bg-accent-purple/55"></span>
+                  <span class="text-[10px] px-2 py-0.5 rounded-full bg-white/5 border border-white/5 uppercase">Experience</span>
+                </h4>
+                <p class="text-text-muted text-xs leading-relaxed mb-4">
+                  Designed high-fidelity responsive wireframes and custom design systems. Translated interactive layouts into semantic components using React, Tailwind CSS, and Framer Motion.
+                </p>
+                <div class="flex flex-wrap gap-1">
+                  <span class="text-[9px] font-mono px-2 py-0.5 rounded bg-white/5 border border-white/5 text-white/70">Figma</span>
+                  <span class="text-[9px] font-mono px-2 py-0.5 rounded bg-white/5 border border-white/5 text-white/70">React</span>
+                  <span class="text-[9px] font-mono px-2 py-0.5 rounded bg-white/5 border border-white/5 text-white/70">Tailwind CSS</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Timeline Item 2 -->
+            <div class="relative pl-8 pb-10 group">
+              <div class="absolute -left-[30px] top-1 flex items-center justify-center w-8 h-8 rounded-full border border-white/10 bg-secondary-dark text-primary-cyan group-hover:border-primary-cyan group-hover:bg-primary-cyan group-hover:text-background-dark transition-all duration-500 shadow-[0_0_15px_rgba(0,229,255,0)] group-hover:shadow-[0_0_15px_rgba(0,229,255,0.4)]">
+                <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+              </div>
+              <div class="glass-panel-glow p-6 rounded-2xl relative overflow-hidden">
+                <span class="inline-block text-[10px] tracking-widest text-primary-cyan uppercase font-semibold mb-2">2024 - Present</span>
+                <h3 class="text-lg font-bold text-white mb-1 group-hover:text-primary-cyan transition-colors duration-300">M.Tech Information Technology</h3>
+                <h4 class="text-xs font-medium text-text-muted mb-3 flex items-center gap-2">
+                  <span>Postgraduate Degree</span>
+                  <span class="w-1.5 h-1.5 rounded-full bg-accent-purple/55"></span>
+                  <span class="text-[10px] px-2 py-0.5 rounded-full bg-white/5 border border-white/5 uppercase">Education</span>
+                </h4>
+                <p class="text-text-muted text-xs leading-relaxed mb-4">
+                  Specializing in advanced data parsing, Cloud Infrastructure, Artificial Intelligence, and NLP algorithms. Researching new models for insider threat classification.
+                </p>
+                <div class="flex flex-wrap gap-1">
+                  <span class="text-[9px] font-mono px-2 py-0.5 rounded bg-white/5 border border-white/5 text-white/70">Python</span>
+                  <span class="text-[9px] font-mono px-2 py-0.5 rounded bg-white/5 border border-white/5 text-white/70">AI & ML</span>
+                  <span class="text-[9px] font-mono px-2 py-0.5 rounded bg-white/5 border border-white/5 text-white/70">Cloud Security</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Timeline Item 3 -->
+            <div class="relative pl-8 pb-10 group">
+              <div class="absolute -left-[30px] top-1 flex items-center justify-center w-8 h-8 rounded-full border border-white/10 bg-secondary-dark text-primary-cyan group-hover:border-primary-cyan group-hover:bg-primary-cyan group-hover:text-background-dark transition-all duration-500 shadow-[0_0_15px_rgba(0,229,255,0)] group-hover:shadow-[0_0_15px_rgba(0,229,255,0.4)]">
+                <i data-lucide="briefcase" class="w-4 h-4"></i>
+              </div>
+              <div class="glass-panel-glow p-6 rounded-2xl relative overflow-hidden">
+                <span class="inline-block text-[10px] tracking-widest text-primary-cyan uppercase font-semibold mb-2">2022 - Present</span>
+                <h3 class="text-lg font-bold text-white mb-1 group-hover:text-primary-cyan transition-colors duration-300">Freelance Web Designer</h3>
+                <h4 class="text-xs font-medium text-text-muted mb-3 flex items-center gap-2">
+                  <span>Independent Practice</span>
+                  <span class="w-1.5 h-1.5 rounded-full bg-accent-purple/55"></span>
+                  <span class="text-[10px] px-2 py-0.5 rounded-full bg-white/5 border border-white/5 uppercase">Experience</span>
+                </h4>
+                <p class="text-text-muted text-xs leading-relaxed mb-4">
+                  Delivering modern, responsive web experiences for global clients using custom web code, WordPress, and Wix. Handled design handoffs and technical SEO setup.
+                </p>
+                <div class="flex flex-wrap gap-1">
+                  <span class="text-[9px] font-mono px-2 py-0.5 rounded bg-white/5 border border-white/5 text-white/70">WordPress</span>
+                  <span class="text-[9px] font-mono px-2 py-0.5 rounded bg-white/5 border border-white/5 text-white/70">Wix</span>
+                  <span class="text-[9px] font-mono px-2 py-0.5 rounded bg-white/5 border border-white/5 text-white/70">SEO</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Timeline Item 4 -->
+            <div class="relative pl-8 group">
+              <div class="absolute -left-[30px] top-1 flex items-center justify-center w-8 h-8 rounded-full border border-white/10 bg-secondary-dark text-primary-cyan group-hover:border-primary-cyan group-hover:bg-primary-cyan group-hover:text-background-dark transition-all duration-500 shadow-[0_0_15px_rgba(0,229,255,0)] group-hover:shadow-[0_0_15px_rgba(0,229,255,0.4)]">
+                <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+              </div>
+              <div class="glass-panel-glow p-6 rounded-2xl relative overflow-hidden">
+                <span class="inline-block text-[10px] tracking-widest text-primary-cyan uppercase font-semibold mb-2">2020 - 2024</span>
+                <h3 class="text-lg font-bold text-white mb-1 group-hover:text-primary-cyan transition-colors duration-300">B.Tech Computer Science</h3>
+                <h4 class="text-xs font-medium text-text-muted mb-3 flex items-center gap-2">
+                  <span>Undergraduate Degree</span>
+                  <span class="w-1.5 h-1.5 rounded-full bg-accent-purple/55"></span>
+                  <span class="text-[10px] px-2 py-0.5 rounded-full bg-white/5 border border-white/5 uppercase">Education</span>
+                </h4>
+                <p class="text-text-muted text-xs leading-relaxed mb-4">
+                  Graduated with honors. Rigorous coursework in Data Structures, Algorithm Design, OOP, Databases, and Software Architecture.
+                </p>
+                <div class="flex flex-wrap gap-1">
+                  <span class="text-[9px] font-mono px-2 py-0.5 rounded bg-white/5 border border-white/5 text-white/70">C++</span>
+                  <span class="text-[9px] font-mono px-2 py-0.5 rounded bg-white/5 border border-white/5 text-white/70">Data Structures</span>
+                  <span class="text-[9px] font-mono px-2 py-0.5 rounded bg-white/5 border border-white/5 text-white/70">SQL</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. Skills & Tech Globe Section -->
+    <section id="skills" class="py-24 relative overflow-hidden grid-overlay">
+      <div class="absolute left-0 bottom-1/4 w-80 h-80 bg-primary-cyan/5 rounded-full blur-[100px] pointer-events-none"></div>
+      
+      <div class="container mx-auto px-6 md:px-12 relative z-10">
+        <!-- Section Title -->
+        <div class="text-center max-w-2xl mx-auto mb-20">
+          <span class="text-[10px] tracking-[0.3em] text-primary-cyan uppercase font-bold">Competencies</span>
+          <h2 class="text-3xl md:text-4xl font-display font-bold text-white mt-2 mb-6">
+            Interactive Skill Grid & Knowledge Sphere
+          </h2>
+          <div class="w-16 h-[2px] bg-gradient-to-r from-primary-cyan to-accent-purple mx-auto"></div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <!-- Left Side: Filterable skills grid -->
+          <div class="lg:col-span-7 flex flex-col">
+            <!-- Filters -->
+            <div class="flex flex-wrap gap-2 mb-10">
+              <button data-category="all" class="skill-filter-btn flex items-center gap-2 px-4 py-2 rounded-full border text-xs font-medium transition-all duration-300 bg-primary-cyan border-primary-cyan text-background-dark shadow-[0_0_15px_rgba(0,229,255,0.25)]">
+                <i data-lucide="star" class="w-3.5 h-3.5"></i>
+                <span>All Skills</span>
+              </button>
+              <button data-category="languages" class="skill-filter-btn flex items-center gap-2 px-4 py-2 rounded-full border text-xs font-medium transition-all duration-300 bg-white/5 border-white/10 text-white hover:bg-white/10">
+                <i data-lucide="terminal" class="w-3.5 h-3.5"></i>
+                <span>Languages & Web</span>
+              </button>
+              <button data-category="ai" class="skill-filter-btn flex items-center gap-2 px-4 py-2 rounded-full border text-xs font-medium transition-all duration-300 bg-white/5 border-white/10 text-white hover:bg-white/10">
+                <i data-lucide="database" class="w-3.5 h-3.5"></i>
+                <span>AI & Data Science</span>
+              </button>
+              <button data-category="design" class="skill-filter-btn flex items-center gap-2 px-4 py-2 rounded-full border text-xs font-medium transition-all duration-300 bg-white/5 border-white/10 text-white hover:bg-white/10">
+                <i data-lucide="layout" class="w-3.5 h-3.5"></i>
+                <span>UI / UX Design</span>
+              </button>
+              <button data-category="tools" class="skill-filter-btn flex items-center gap-2 px-4 py-2 rounded-full border text-xs font-medium transition-all duration-300 bg-white/5 border-white/10 text-white hover:bg-white/10">
+                <i data-lucide="shield" class="w-3.5 h-3.5"></i>
+                <span>Platforms & Tools</span>
+              </button>
+              <button data-category="marketing" class="skill-filter-btn flex items-center gap-2 px-4 py-2 rounded-full border text-xs font-medium transition-all duration-300 bg-white/5 border-white/10 text-white hover:bg-white/10">
+                <i data-lucide="globe" class="w-3.5 h-3.5"></i>
+                <span>SEO & Marketing</span>
+              </button>
+            </div>
+
+            <!-- Skills List Grid -->
+            <div id="skills-grid-container" class="grid grid-cols-1 sm:grid-cols-2 gap-6 min-h-[300px]">
+              <!-- Python -->
+              <div data-category="languages" class="skill-item-card glass-panel p-5 rounded-2xl flex flex-col justify-between group hover:border-primary-cyan/35 transition-all duration-300">
+                <div class="flex justify-between items-center mb-3">
+                  <span class="text-white font-medium text-sm group-hover:text-primary-cyan transition-colors duration-300">Python</span>
+                  <span class="text-[10px] font-mono text-text-muted">92%</span>
+                </div>
+                <div class="w-full h-[3px] bg-white/10 rounded-full overflow-hidden">
+                  <div class="h-full bg-gradient-to-r from-primary-cyan to-accent-purple rounded-full" style="width: 92%;"></div>
+                </div>
+              </div>
+              
+              <!-- JavaScript -->
+              <div data-category="languages" class="skill-item-card glass-panel p-5 rounded-2xl flex flex-col justify-between group hover:border-primary-cyan/35 transition-all duration-300">
+                <div class="flex justify-between items-center mb-3">
+                  <span class="text-white font-medium text-sm group-hover:text-primary-cyan transition-colors duration-300">JavaScript</span>
+                  <span class="text-[10px] font-mono text-text-muted">88%</span>
+                </div>
+                <div class="w-full h-[3px] bg-white/10 rounded-full overflow-hidden">
+                  <div class="h-full bg-gradient-to-r from-primary-cyan to-accent-purple rounded-full" style="width: 88%;"></div>
+                </div>
+              </div>
+              
+              <!-- YOLO -->
+              <div data-category="ai" class="skill-item-card glass-panel p-5 rounded-2xl flex flex-col justify-between group hover:border-primary-cyan/35 transition-all duration-300">
+                <div class="flex justify-between items-center mb-3">
+                  <span class="text-white font-medium text-sm group-hover:text-primary-cyan transition-colors duration-300">YOLO Object Detection</span>
+                  <span class="text-[10px] font-mono text-text-muted">88%</span>
+                </div>
+                <div class="w-full h-[3px] bg-white/10 rounded-full overflow-hidden">
+                  <div class="h-full bg-gradient-to-r from-primary-cyan to-accent-purple rounded-full" style="width: 88%;"></div>
+                </div>
+              </div>
+
+              <!-- NumPy/Pandas -->
+              <div data-category="ai" class="skill-item-card glass-panel p-5 rounded-2xl flex flex-col justify-between group hover:border-primary-cyan/35 transition-all duration-300">
+                <div class="flex justify-between items-center mb-3">
+                  <span class="text-white font-medium text-sm group-hover:text-primary-cyan transition-colors duration-300">NumPy & Pandas</span>
+                  <span class="text-[10px] font-mono text-text-muted">90%</span>
+                </div>
+                <div class="w-full h-[3px] bg-white/10 rounded-full overflow-hidden">
+                  <div class="h-full bg-gradient-to-r from-primary-cyan to-accent-purple rounded-full" style="width: 90%;"></div>
+                </div>
+              </div>
+
+              <!-- Figma UI/UX -->
+              <div data-category="design" class="skill-item-card glass-panel p-5 rounded-2xl flex flex-col justify-between group hover:border-primary-cyan/35 transition-all duration-300">
+                <div class="flex justify-between items-center mb-3">
+                  <span class="text-white font-medium text-sm group-hover:text-primary-cyan transition-colors duration-300">Figma UI/UX</span>
+                  <span class="text-[10px] font-mono text-text-muted">90%</span>
+                </div>
+                <div class="w-full h-[3px] bg-white/10 rounded-full overflow-hidden">
+                  <div class="h-full bg-gradient-to-r from-primary-cyan to-accent-purple rounded-full" style="width: 90%;"></div>
+                </div>
+              </div>
+
+              <!-- Technical SEO -->
+              <div data-category="marketing" class="skill-item-card glass-panel p-5 rounded-2xl flex flex-col justify-between group hover:border-primary-cyan/35 transition-all duration-300">
+                <div class="flex justify-between items-center mb-3">
+                  <span class="text-white font-medium text-sm group-hover:text-primary-cyan transition-colors duration-300">Technical SEO</span>
+                  <span class="text-[10px] font-mono text-text-muted">90%</span>
+                </div>
+                <div class="w-full h-[3px] bg-white/10 rounded-full overflow-hidden">
+                  <div class="h-full bg-gradient-to-r from-primary-cyan to-accent-purple rounded-full" style="width: 90%;"></div>
+                </div>
+              </div>
+
+              <!-- OpenCV -->
+              <div data-category="ai" class="skill-item-card glass-panel p-5 rounded-2xl flex flex-col justify-between group hover:border-primary-cyan/35 transition-all duration-300">
+                <div class="flex justify-between items-center mb-3">
+                  <span class="text-white font-medium text-sm group-hover:text-primary-cyan transition-colors duration-300">OpenCV Vision</span>
+                  <span class="text-[10px] font-mono text-text-muted">85%</span>
+                </div>
+                <div class="w-full h-[3px] bg-white/10 rounded-full overflow-hidden">
+                  <div class="h-full bg-gradient-to-r from-primary-cyan to-accent-purple rounded-full" style="width: 85%;"></div>
+                </div>
+              </div>
+
+              <!-- Git & GitHub -->
+              <div data-category="tools" class="skill-item-card glass-panel p-5 rounded-2xl flex flex-col justify-between group hover:border-primary-cyan/35 transition-all duration-300">
+                <div class="flex justify-between items-center mb-3">
+                  <span class="text-white font-medium text-sm group-hover:text-primary-cyan transition-colors duration-300">Git & GitHub</span>
+                  <span class="text-[10px] font-mono text-text-muted">85%</span>
+                </div>
+                <div class="w-full h-[3px] bg-white/10 rounded-full overflow-hidden">
+                  <div class="h-full bg-gradient-to-r from-primary-cyan to-accent-purple rounded-full" style="width: 85%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Side: 3D Globe Canvas -->
+          <div class="lg:col-span-5 flex flex-col items-center">
+            <div class="glass-panel p-4 rounded-3xl w-full border border-white/5 bg-secondary-dark/40 backdrop-blur-lg">
+              <div class="text-center pb-2 border-b border-white/5 mb-4">
+                <span class="text-[9px] uppercase font-mono tracking-widest text-text-muted">
+                  Drag / Hover to Orbit Space
+                </span>
+              </div>
+              
+              <!-- 3D Canvas container -->
+              <div class="relative w-full h-[350px] md:h-[360px] flex items-center justify-center overflow-hidden">
+                <canvas id="tech-globe-canvas" class="w-full h-full max-w-lg cursor-pointer"></canvas>
+                <div id="active-node-tag" class="absolute bottom-2 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-accent-purple/20 border border-accent-purple/40 text-[10px] uppercase font-mono tracking-widest text-primary-cyan backdrop-blur-md" style="opacity: 0; transition: opacity 0.3s ease;">
+                  Active Node
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. Projects Grid Section -->
+    <section id="projects" class="py-24 relative overflow-hidden bg-secondary-dark/10">
+      <div class="absolute right-0 top-1/3 w-80 h-80 bg-accent-purple/5 rounded-full blur-[100px] pointer-events-none"></div>
+      
+      <div class="container mx-auto px-6 md:px-12 relative z-10">
+        <!-- Section Title -->
+        <div class="text-center max-w-2xl mx-auto mb-20">
+          <span class="text-[10px] tracking-[0.3em] text-primary-cyan uppercase font-bold">Selected Works</span>
+          <h2 class="text-3xl md:text-4xl font-display font-bold text-white mt-2 mb-6">Featured Projects</h2>
+          <div class="w-16 h-[2px] bg-gradient-to-r from-primary-cyan to-accent-purple mx-auto"></div>
+        </div>
+
+        <!-- Projects Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- Project 1 -->
+          <div class="glass-panel p-8 rounded-3xl relative overflow-hidden group flex flex-col justify-between hover:border-primary-cyan/20 transition-all duration-500">
+            <div class="absolute inset-0 bg-gradient-to-br from-primary-cyan/20 via-burgundy/10 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-700 pointer-events-none"></div>
+            <div class="absolute top-0 right-0 w-32 h-32 bg-white/2 border-l border-b border-white/5 rounded-bl-full flex items-center justify-center group-hover:border-primary-cyan/25 transition-colors duration-500">
+              <i data-lucide="server" class="w-6 h-6 text-text-muted/65 group-hover:text-primary-cyan transition-colors duration-500"></i>
+            </div>
+            <div class="relative z-10">
+              <span class="text-[10px] uppercase font-mono tracking-widest text-primary-cyan font-semibold">Cloud Security & AI</span>
+              <h3 class="text-2xl font-bold text-white mt-3 mb-6 group-hover:text-primary-cyan transition-colors duration-300">Cloud Insider Attack Detection</h3>
+              <div class="flex flex-wrap gap-1.5 mb-6">
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 border border-white/5 text-white/70">Python</span>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 border border-white/5 text-white/70">Django</span>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 border border-white/5 text-white/70">Scikit-Learn</span>
+              </div>
+              <ul class="space-y-2 mb-8">
+                <li class="flex items-start gap-2 text-xs text-text-muted leading-relaxed">
+                  <span class="w-1.5 h-1.5 rounded-full bg-primary-cyan mt-1.5 flex-shrink-0"></span>
+                  <span>User behavior analysis using anomaly detection models</span>
+                </li>
+                <li class="flex items-start gap-2 text-xs text-text-muted leading-relaxed">
+                  <span class="w-1.5 h-1.5 rounded-full bg-primary-cyan mt-1.5 flex-shrink-0"></span>
+                  <span>Dynamic dashboard visualizing system logs and threats</span>
+                </li>
+              </ul>
+            </div>
+            <div class="flex items-center justify-between border-t border-white/5 pt-6 relative z-10">
+              <div class="flex gap-4">
+                <a href="https://github.com" target="_blank" class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-white hover:text-primary-cyan border border-white/10 transition-colors duration-300">
+                  <i data-lucide="github" class="w-4 h-4"></i>
+                </a>
+              </div>
+              <button data-id="1" class="project-card-btn px-4 py-2 rounded-full bg-white/5 hover:bg-primary-cyan/15 hover:text-primary-cyan border border-white/10 text-xs font-semibold text-white transition-all duration-300 flex items-center gap-1.5">
+                <span>View Case Study</span>
+                <i data-lucide="arrow-up-right" class="w-3 h-3"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Project 2 -->
+          <div class="glass-panel p-8 rounded-3xl relative overflow-hidden group flex flex-col justify-between hover:border-primary-cyan/20 transition-all duration-500">
+            <div class="absolute inset-0 bg-gradient-to-br from-accent-purple/20 via-primary-cyan/10 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-700 pointer-events-none"></div>
+            <div class="absolute top-0 right-0 w-32 h-32 bg-white/2 border-l border-b border-white/5 rounded-bl-full flex items-center justify-center group-hover:border-primary-cyan/25 transition-colors duration-500">
+              <i data-lucide="cpu" class="w-6 h-6 text-text-muted/65 group-hover:text-primary-cyan transition-colors duration-500"></i>
+            </div>
+            <div class="relative z-10">
+              <span class="text-[10px] uppercase font-mono tracking-widest text-primary-cyan font-semibold">Computer Vision</span>
+              <h3 class="text-2xl font-bold text-white mt-3 mb-6 group-hover:text-primary-cyan transition-colors duration-300">YOLO Object Detection</h3>
+              <div class="flex flex-wrap gap-1.5 mb-6">
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 border border-white/5 text-white/70">Python</span>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 border border-white/5 text-white/70">YOLOv8</span>
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/5 border border-white/5 text-white/70">OpenCV</span>
+              </div>
+              <ul class="space-y-2 mb-8">
+                <li class="flex items-start gap-2 text-xs text-text-muted leading-relaxed">
+                  <span class="w-1.5 h-1.5 rounded-full bg-primary-cyan mt-1.5 flex-shrink-0"></span>
+                  <span>Multi-class item labeling and track tracing at 45+ FPS</span>
+                </li>
+                <li class="flex items-start gap-2 text-xs text-text-muted leading-relaxed">
+                  <span class="w-1.5 h-1.5 rounded-full bg-primary-cyan mt-1.5 flex-shrink-0"></span>
+                  <span>Custom training routine for low-light environmental feeds</span>
+                </li>
+              </ul>
+            </div>
+            <div class="flex items-center justify-between border-t border-white/5 pt-6 relative z-10">
+              <div class="flex gap-4">
+                <a href="https://github.com" target="_blank" class="w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-white hover:text-primary-cyan border border-white/10 transition-colors duration-300">
+                  <i data-lucide="github" class="w-4 h-4"></i>
+                </a>
+              </div>
+              <button data-id="2" class="project-card-btn px-4 py-2 rounded-full bg-white/5 hover:bg-primary-cyan/15 hover:text-primary-cyan border border-white/10 text-xs font-semibold text-white transition-all duration-300 flex items-center gap-1.5">
+                <span>View Case Study</span>
+                <i data-lucide="arrow-up-right" class="w-3 h-3"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Project Case Study Dynamic Modal Backdrop -->
+    <div id="project-modal" class="project-modal fixed inset-0 w-full h-full bg-background-dark/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+      <div class="modal-content-card glass-panel w-full max-w-2xl rounded-3xl overflow-hidden shadow-2xl relative bg-secondary-dark/95 border border-white/15">
+        <!-- Close button -->
+        <button id="modal-close-btn" class="absolute top-4 right-4 p-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 text-white transition-colors">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+        
+        <div class="p-8">
+          <span id="modal-category" class="text-[10px] uppercase font-mono tracking-widest text-primary-cyan font-bold">Category</span>
+          <h3 id="modal-title" class="text-2xl font-bold text-white mt-2 mb-6 font-display">Project Title</h3>
+          
+          <div class="space-y-6">
+            <!-- Challenge -->
+            <div>
+              <h4 class="text-xs uppercase font-mono tracking-wider text-white font-bold mb-2 flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>
+                <span>The Challenge</span>
+              </h4>
+              <p id="modal-challenge" class="text-text-muted text-xs leading-relaxed font-light">Description of the problem faced.</p>
+            </div>
+            
+            <!-- Solution -->
+            <div>
+              <h4 class="text-xs uppercase font-mono tracking-wider text-white font-bold mb-2 flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-primary-cyan"></span>
+                <span>The Solution</span>
+              </h4>
+              <p id="modal-solution" class="text-text-muted text-xs leading-relaxed font-light">Description of how it was resolved.</p>
+            </div>
+            
+            <!-- Tech stack -->
+            <div>
+              <h4 class="text-xs uppercase font-mono tracking-wider text-white font-bold mb-3">Technologies Stack</h4>
+              <div id="modal-tech" class="flex flex-wrap gap-1.5"></div>
+            </div>
+            
+            <!-- Results -->
+            <div>
+              <h4 class="text-xs uppercase font-mono tracking-wider text-white font-bold mb-3">Results & Metrics</h4>
+              <ul id="modal-results" class="space-y-2"></ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 9. Services Grid Section -->
+    <section id="services" class="py-24 relative overflow-hidden grid-overlay">
+      <div class="absolute right-0 bottom-1/3 w-96 h-96 bg-primary-cyan/5 rounded-full blur-[120px] pointer-events-none"></div>
+      
+      <div class="container mx-auto px-6 md:px-12 relative z-10">
+        <!-- Section Title -->
+        <div class="text-center max-w-2xl mx-auto mb-20">
+          <span class="text-[10px] tracking-[0.3em] text-primary-cyan uppercase font-bold">Offerings</span>
+          <h2 class="text-3xl md:text-4xl font-display font-bold text-white mt-2 mb-6">Services & Value Proposition</h2>
+          <div class="w-16 h-[2px] bg-gradient-to-r from-primary-cyan to-accent-purple mx-auto"></div>
+        </div>
+
+        <!-- Services Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <!-- Service 1 -->
+          <div class="glass-panel p-8 rounded-3xl group flex flex-col justify-between transition-all duration-500 border border-cyan-500/10 hover:border-cyan-500/30">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-text-muted group-hover:text-white group-hover:bg-white/10 transition-all duration-500 mb-6">
+                <i data-lucide="code" class="w-5.5 h-5.5"></i>
+              </div>
+              <h3 class="text-2xl font-bold text-white mb-4 group-hover:text-primary-cyan transition-colors duration-300">Full Stack Web Development</h3>
+              <p class="text-sm text-text-muted leading-relaxed mb-6 font-light">
+                Engineering performant, dynamic, and responsive web products using Next.js, React, Tailwind, and Django servers. Adhering to Core Web Vitals and SEO specifications.
+              </p>
+            </div>
+            <div class="flex flex-wrap gap-2 pt-4 border-t border-white/5">
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/3 border border-white/3 text-white/60">React/Next.js</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/3 border border-white/3 text-white/60">Django Core</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/3 border border-white/3 text-white/60">REST APIs</span>
+            </div>
+          </div>
+
+          <!-- Service 2 -->
+          <div class="glass-panel p-8 rounded-3xl group flex flex-col justify-between transition-all duration-500 border border-purple-500/10 hover:border-purple-500/30">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-text-muted group-hover:text-white group-hover:bg-white/10 transition-all duration-500 mb-6">
+                <i data-lucide="layout-template" class="w-5.5 h-5.5"></i>
+              </div>
+              <h3 class="text-2xl font-bold text-white mb-4 group-hover:text-primary-cyan transition-colors duration-300">UI / UX Interface Design</h3>
+              <p class="text-sm text-text-muted leading-relaxed mb-6 font-light">
+                Designing structured wireframes, prototypes, and user interfaces inside Figma. Creating clean, reusable component systems and fluid user experiences.
+              </p>
+            </div>
+            <div class="flex flex-wrap gap-2 pt-4 border-t border-white/5">
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/3 border border-white/3 text-white/60">Figma Design</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/3 border border-white/3 text-white/60">User Journeys</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/3 border border-white/3 text-white/60">Prototypes</span>
+            </div>
+          </div>
+
+          <!-- Service 3 -->
+          <div class="glass-panel p-8 rounded-3xl group flex flex-col justify-between transition-all duration-500 border border-emerald-500/10 hover:border-emerald-500/30">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-text-muted group-hover:text-white group-hover:bg-white/10 transition-all duration-500 mb-6">
+                <i data-lucide="brain-circuit" class="w-5.5 h-5.5"></i>
+              </div>
+              <h3 class="text-2xl font-bold text-white mb-4 group-hover:text-primary-cyan transition-colors duration-300">AI & ML Integrations</h3>
+              <p class="text-sm text-text-muted leading-relaxed mb-6 font-light">
+                Connecting custom computer vision frameworks (YOLO, OpenCV) and NLP pipelines directly to modern user dashboards. Automating analytics workflows.
+              </p>
+            </div>
+            <div class="flex flex-wrap gap-2 pt-4 border-t border-white/5">
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/3 border border-white/3 text-white/60">YOLO Detection</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/3 border border-white/3 text-white/60">OpenCV Vision</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/3 border border-white/3 text-white/60">Python Sci</span>
+            </div>
+          </div>
+
+          <!-- Service 4 -->
+          <div class="glass-panel p-8 rounded-3xl group flex flex-col justify-between transition-all duration-500 border border-amber-500/10 hover:border-amber-500/30">
+            <div>
+              <div class="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-text-muted group-hover:text-white group-hover:bg-white/10 transition-all duration-500 mb-6">
+                <i data-lucide="search-check" class="w-5.5 h-5.5"></i>
+              </div>
+              <h3 class="text-2xl font-bold text-white mb-4 group-hover:text-primary-cyan transition-colors duration-300">Technical SEO & Marketing</h3>
+              <p class="text-sm text-text-muted leading-relaxed mb-6 font-light">
+                Optimizing website structures for schema markup, search crawler indexing, speed benchmarks, and running campaign audits to maximize conversion.
+              </p>
+            </div>
+            <div class="flex flex-wrap gap-2 pt-4 border-t border-white/5">
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/3 border border-white/3 text-white/60">Technical SEO</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/3 border border-white/3 text-white/60">Google Analytics</span>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/3 border border-white/3 text-white/60">Schema Markup</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10. Testimonials Slide Carousel Section -->
+    <section id="testimonials" class="py-24 relative overflow-hidden bg-secondary-dark/30">
+      <div class="absolute left-1/4 top-1/4 w-80 h-80 bg-accent-purple/5 rounded-full blur-[100px] pointer-events-none"></div>
+      
+      <div class="container mx-auto px-6 md:px-12 relative z-10">
+        <!-- Section Title -->
+        <div class="text-center max-w-2xl mx-auto mb-20">
+          <span class="text-[10px] tracking-[0.3em] text-primary-cyan uppercase font-bold">Endorsements</span>
+          <h2 class="text-3xl md:text-4xl font-display font-bold text-white mt-2 mb-6">Testimonials & Reviews</h2>
+          <div class="w-16 h-[2px] bg-gradient-to-r from-primary-cyan to-accent-purple mx-auto"></div>
+        </div>
+
+        <!-- Carousel Wrapper -->
+        <div class="max-w-4xl mx-auto relative px-4 md:px-12">
+          <div class="glass-panel-glow p-8 md:p-12 rounded-3xl min-h-[250px] flex flex-col justify-between relative overflow-hidden">
+            <!-- Big quote watermark -->
+            <div class="absolute top-6 right-8 text-white/5 pointer-events-none">
+              <i data-lucide="quote" class="w-28 h-28 opacity-10"></i>
+            </div>
+            
+            <div id="testimonial-content-wrapper" class="relative z-10">
+              <!-- Star rating -->
+              <div id="testimonial-stars" class="flex gap-1 mb-6">
+                <i data-lucide="star" class="fill-primary-cyan text-primary-cyan w-3.5 h-3.5"></i>
+                <i data-lucide="star" class="fill-primary-cyan text-primary-cyan w-3.5 h-3.5"></i>
+                <i data-lucide="star" class="fill-primary-cyan text-primary-cyan w-3.5 h-3.5"></i>
+                <i data-lucide="star" class="fill-primary-cyan text-primary-cyan w-3.5 h-3.5"></i>
+                <i data-lucide="star" class="fill-primary-cyan text-primary-cyan w-3.5 h-3.5"></i>
+              </div>
+
+              <!-- Quote Text -->
+              <p id="testimonial-quote" class="text-white text-md md:text-lg font-light leading-relaxed mb-8 italic">
+                “Sushma's capacity to design custom UI dashboards and connect them directly to Python AI endpoints is highly impressive. She bridges design thinking and complex server architecture with ease.”
+              </p>
+
+              <!-- Author details -->
+              <div>
+                <h4 id="testimonial-name" class="text-md font-bold text-white">Rajesh Kumar</h4>
+                <p id="testimonial-role" class="text-xs text-text-muted mt-0.5">
+                  Senior Engineering Manager &bull; <span class="text-primary-cyan">Bharti Airtel Digital</span>
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Controls buttons -->
+          <div class="flex justify-end gap-3 mt-6">
+            <button id="testimonial-prev" class="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-text-muted hover:text-white transition-all duration-300 active:scale-95">
+              <i data-lucide="chevron-left" class="w-4.5 h-4.5"></i>
+            </button>
+            <button id="testimonial-next" class="w-10 h-10 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-text-muted hover:text-white transition-all duration-300 active:scale-95">
+              <i data-lucide="chevron-right" class="w-4.5 h-4.5"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 11. Gallery Grid Showcase Section -->
+    <section id="gallery" class="py-24 relative overflow-hidden grid-overlay">
+      <div class="absolute right-0 bottom-1/4 w-80 h-80 bg-accent-purple/5 rounded-full blur-[100px] pointer-events-none"></div>
+      
+      <div class="container mx-auto px-6 md:px-12 relative z-10">
+        <!-- Section Title -->
+        <div class="text-center max-w-2xl mx-auto mb-16">
+          <span class="text-[10px] tracking-[0.3em] text-primary-cyan uppercase font-bold">Showcase</span>
+          <h2 class="text-3xl md:text-4xl font-display font-bold text-white mt-2 mb-6">
+            Certifications & Design Work
+          </h2>
+          <div class="w-16 h-[2px] bg-gradient-to-r from-primary-cyan to-accent-purple mx-auto"></div>
+        </div>
+
+        <!-- Category Filters -->
+        <div class="flex justify-center gap-3 mb-12">
+          <button data-filter="All" class="gallery-filter-btn px-5 py-2 rounded-full border text-xs font-semibold tracking-wider transition-all duration-300 bg-primary-cyan border-primary-cyan text-background-dark shadow-[0_0_15px_rgba(0,229,255,0.25)]">All</button>
+          <button data-filter="Certificates" class="gallery-filter-btn px-5 py-2 rounded-full border text-xs font-semibold tracking-wider transition-all duration-300 bg-white/5 border-white/10 text-white hover:bg-white/10">Certificates</button>
+          <button data-filter="Designs" class="gallery-filter-btn px-5 py-2 rounded-full border text-xs font-semibold tracking-wider transition-all duration-300 bg-white/5 border-white/10 text-white hover:bg-white/10">Designs</button>
+          <button data-filter="Achievements" class="gallery-filter-btn px-5 py-2 rounded-full border text-xs font-semibold tracking-wider transition-all duration-300 bg-white/5 border-white/10 text-white hover:bg-white/10">Achievements</button>
+        </div>
+
+        <!-- Gallery Grid container -->
+        <div id="gallery-items-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Item 1 -->
+          <div data-category="Certificates" class="gallery-item-card glass-panel p-6 rounded-3xl relative overflow-hidden group flex flex-col justify-between hover:border-primary-cyan/25 transition-all duration-500 bg-gradient-to-br from-cyan-500/10 to-blue-500/5">
+            <div>
+              <div class="flex justify-between items-center mb-6">
+                <span class="text-[9px] font-mono tracking-widest text-primary-cyan uppercase bg-primary-cyan/10 border border-primary-cyan/20 px-2.5 py-1 rounded-full">
+                  Certificates
+                </span>
+                <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-text-muted/65 group-hover:text-primary-cyan group-hover:bg-primary-cyan/15 transition-all duration-500">
+                  <i data-lucide="award" class="w-3.5 h-3.5"></i>
+                </div>
+              </div>
+              <h3 class="text-lg font-bold text-white mb-3 group-hover:text-primary-cyan transition-colors duration-300">UI / UX Specialization</h3>
+              <p class="text-xs text-text-muted leading-relaxed font-light mb-6">
+                Interaction design frameworks, dynamic wireframes, and design systems verification.
+              </p>
+            </div>
+            <div class="pt-4 border-t border-white/5 flex items-center justify-between text-[11px] text-text-muted group-hover:text-white transition-colors duration-300 select-none">
+              <span class="font-mono">ID: SSP-001</span>
+              <span class="flex items-center gap-1"><i data-lucide="eye" class="text-primary-cyan w-3 h-3"></i> View Details</span>
+            </div>
+          </div>
+
+          <!-- Item 2 -->
+          <div data-category="Certificates" class="gallery-item-card glass-panel p-6 rounded-3xl relative overflow-hidden group flex flex-col justify-between hover:border-primary-cyan/25 transition-all duration-500 bg-gradient-to-br from-purple-500/10 to-indigo-500/5">
+            <div>
+              <div class="flex justify-between items-center mb-6">
+                <span class="text-[9px] font-mono tracking-widest text-primary-cyan uppercase bg-primary-cyan/10 border border-primary-cyan/20 px-2.5 py-1 rounded-full">
+                  Certificates
+                </span>
+                <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-text-muted/65 group-hover:text-primary-cyan group-hover:bg-primary-cyan/15 transition-all duration-500">
+                  <i data-lucide="award" class="w-3.5 h-3.5"></i>
+                </div>
+              </div>
+              <h3 class="text-lg font-bold text-white mb-3 group-hover:text-primary-cyan transition-colors duration-300">Python for Data Science</h3>
+              <p class="text-xs text-text-muted leading-relaxed font-light mb-6">
+                Advanced Pandas, NumPy operations, and machine learning prediction pipelines certification.
+              </p>
+            </div>
+            <div class="pt-4 border-t border-white/5 flex items-center justify-between text-[11px] text-text-muted group-hover:text-white transition-colors duration-300 select-none">
+              <span class="font-mono">ID: SSP-002</span>
+              <span class="flex items-center gap-1"><i data-lucide="eye" class="text-primary-cyan w-3 h-3"></i> View Details</span>
+            </div>
+          </div>
+
+          <!-- Item 3 -->
+          <div data-category="Designs" class="gallery-item-card glass-panel p-6 rounded-3xl relative overflow-hidden group flex flex-col justify-between hover:border-primary-cyan/25 transition-all duration-500 bg-gradient-to-br from-blue-500/10 to-purple-500/5">
+            <div>
+              <div class="flex justify-between items-center mb-6">
+                <span class="text-[9px] font-mono tracking-widest text-primary-cyan uppercase bg-primary-cyan/10 border border-primary-cyan/20 px-2.5 py-1 rounded-full">
+                  Designs
+                </span>
+                <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-text-muted/65 group-hover:text-primary-cyan group-hover:bg-primary-cyan/15 transition-all duration-500">
+                  <i data-lucide="monitor" class="w-3.5 h-3.5"></i>
+                </div>
+              </div>
+              <h3 class="text-lg font-bold text-white mb-3 group-hover:text-primary-cyan transition-colors duration-300">Enterprise Dashboard Concept</h3>
+              <p class="text-xs text-text-muted leading-relaxed font-light mb-6">
+                Figma wireframe design system created for complex multi-role client portals.
+              </p>
+            </div>
+            <div class="pt-4 border-t border-white/5 flex items-center justify-between text-[11px] text-text-muted group-hover:text-white transition-colors duration-300 select-none">
+              <span class="font-mono">ID: SSP-004</span>
+              <span class="flex items-center gap-1"><i data-lucide="eye" class="text-primary-cyan w-3 h-3"></i> View Details</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 12. Contact Form Section -->
+    <section id="contact" class="py-24 relative overflow-hidden bg-secondary-dark/10 grid-overlay">
+      <div class="absolute left-0 top-1/4 w-80 h-80 bg-primary-cyan/5 rounded-full blur-[100px] pointer-events-none"></div>
+      
+      <div class="container mx-auto px-6 md:px-12 relative z-10">
+        <!-- Section Title -->
+        <div class="text-center max-w-2xl mx-auto mb-20">
+          <span class="text-[10px] tracking-[0.3em] text-primary-cyan uppercase font-bold">Get In Touch</span>
+          <h2 class="text-3xl md:text-4xl font-display font-bold text-white mt-2 mb-6">Let's Collaborate on Something Great</h2>
+          <div class="w-16 h-[2px] bg-gradient-to-r from-primary-cyan to-accent-purple mx-auto"></div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 max-w-5xl mx-auto">
+          <!-- Left Column Contact Info cards -->
+          <div class="lg:col-span-5 flex flex-col gap-6">
+            <h3 class="text-2xl font-display font-bold text-white mb-2">Contact Details</h3>
+            <p class="text-text-muted text-sm leading-relaxed mb-4">
+              Have a freelance requirement, a technical problem to discuss, or just want to connect? Reach out via any of these channels!
+            </p>
+
+            <!-- Email card -->
+            <div class="glass-panel p-6 rounded-2xl flex items-center gap-4 hover:border-primary-cyan/25 transition-all duration-300">
+              <div class="p-3 bg-primary-cyan/10 rounded-xl text-primary-cyan">
+                <i data-lucide="mail" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <span class="text-[10px] uppercase font-mono tracking-widest text-text-muted">Email</span>
+                <p class="text-white text-sm font-semibold mt-0.5">sushma.sharma.it@gmail.com</p>
+              </div>
+            </div>
+
+            <!-- Phone card -->
+            <div class="glass-panel p-6 rounded-2xl flex items-center gap-4 hover:border-accent-purple/25 transition-all duration-300">
+              <div class="p-3 bg-accent-purple/10 rounded-xl text-accent-purple">
+                <i data-lucide="phone" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <span class="text-[10px] uppercase font-mono tracking-widest text-text-muted">Phone</span>
+                <p class="text-white text-sm font-semibold mt-0.5">+91 (000) 000-0000</p>
+              </div>
+            </div>
+
+            <!-- Location card -->
+            <div class="glass-panel p-6 rounded-2xl flex items-center gap-4 hover:border-white/20 transition-all duration-300">
+              <div class="p-3 bg-white/5 rounded-xl text-white">
+                <i data-lucide="map-pin" class="w-5 h-5"></i>
+              </div>
+              <div>
+                <span class="text-[10px] uppercase font-mono tracking-widest text-text-muted">Location</span>
+                <p class="text-white text-sm font-semibold mt-0.5">Uttar Pradesh, India</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column Contact Form card -->
+          <div class="lg:col-span-7">
+            <div class="glass-panel-glow p-8 rounded-3xl relative overflow-hidden bg-secondary-dark/40">
+              
+              <!-- Success Message View -->
+              <div id="contact-success-msg" class="flex flex-col items-center justify-center py-12 text-center" style="display: none;">
+                <i data-lucide="check-circle" class="w-14 h-14 text-primary-cyan mb-4 animate-bounce"></i>
+                <h4 class="text-xl font-bold text-white mb-2">Message Sent Successfully!</h4>
+                <p class="text-text-muted text-xs max-w-sm">
+                  Thank you for reaching out, Sushma will review your inquiry and get back to you shortly.
+                </p>
+                <button id="contact-reset-btn" class="mt-6 px-6 py-2.5 rounded-full bg-white/5 border border-white/10 hover:bg-white/10 text-xs font-semibold text-white transition-all duration-300">
+                  Send Another Message
+                </button>
+              </div>
+
+              <!-- Contact Form View -->
+              <div id="contact-form-content">
+                <form id="contact-form" class="space-y-6">
+                  
+                  <!-- Honey-pot anti-spam trap (hidden from user) -->
+                  <div class="hidden">
+                    <input type="text" id="honeypot-field" name="honeypot" tabindex="-1" autocomplete="off">
+                  </div>
+
+                  <!-- Name and Email input block -->
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div class="flex flex-col gap-2">
+                      <label for="form-name" class="text-[10px] uppercase font-mono tracking-widest text-text-muted">Name *</label>
+                      <input type="text" id="form-name" required placeholder="John Doe" class="px-5 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-primary-cyan/50 focus:bg-white/10 outline-none text-xs text-white transition-all duration-300">
+                    </div>
+                    <div class="flex flex-col gap-2">
+                      <label for="form-email" class="text-[10px] uppercase font-mono tracking-widest text-text-muted">Email *</label>
+                      <input type="email" id="form-email" required placeholder="john@example.com" class="px-5 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-primary-cyan/50 focus:bg-white/10 outline-none text-xs text-white transition-all duration-300">
+                    </div>
+                  </div>
+
+                  <!-- Subject input -->
+                  <div class="flex flex-col gap-2">
+                    <label for="form-subject" class="text-[10px] uppercase font-mono tracking-widest text-text-muted">Subject</label>
+                    <input type="text" id="form-subject" placeholder="Project collaboration proposal" class="px-5 py-3 rounded-xl bg-white/5 border border-white/10 focus:border-primary-cyan/50 focus:bg-white/10 outline-none text-xs text-white transition-all duration-300">
+                  </div>
+
+                  <!-- Message body text -->
+                  <div class="flex flex-col gap-2">
+                    <label for="form-message" class="text-[10px] uppercase font-mono tracking-widest text-text-muted">Message *</label>
+                    <textarea id="form-message" required rows="5" placeholder="Hi Sushma, I would love to discuss a project..." class="px-5 py-4 rounded-xl bg-white/5 border border-white/10 focus:border-primary-cyan/50 focus:bg-white/10 outline-none text-xs text-white resize-none transition-all duration-300"></textarea>
+                  </div>
+
+                  <button type="submit" id="contact-send-btn" class="w-full py-4 rounded-2xl bg-gradient-to-r from-primary-cyan to-accent-purple text-background-dark font-bold text-xs uppercase tracking-widest shadow-lg hover:scale-[1.01] active:scale-95 transition-all duration-300 flex items-center justify-center gap-2">
+                    <span>Send Inquiry</span>
+                    <i data-lucide="send" class="w-3.5 h-3.5"></i>
+                  </button>
+
+                </form>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 13. Brand Footer Section -->
+  <footer class="bg-secondary-dark/60 border-t border-white/5 py-12 relative z-10 print:hidden">
+    <div class="container mx-auto px-6 md:px-12 flex flex-col md:flex-row justify-between items-center gap-6">
+      <!-- Brand details -->
+      <div class="flex flex-col items-center md:items-start text-center md:text-left">
+        <span class="text-white font-display font-bold tracking-widest text-lg">SUSHMA SHARMA</span>
+        <p class="text-[10px] text-text-muted mt-1 uppercase font-sans tracking-[0.2em] font-light">
+          Creativity &bull; Code &bull; Intelligence
+        </p>
+      </div>
+
+      <!-- Copy details -->
+      <div class="text-xs text-text-muted flex items-center gap-1 select-none order-2 md:order-2">
+        <span>&copy; 2026 Sushma Sharma. Made with</span>
+        <i data-lucide="heart" class="text-red-500 fill-red-500 w-3 h-3"></i>
+        <span>in India. All rights reserved.</span>
+      </div>
+
+      <!-- Social handles -->
+      <div class="flex items-center gap-4 order-1 md:order-3">
+        <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full bg-white/5 hover:bg-primary-cyan/10 hover:text-primary-cyan border border-white/10 flex items-center justify-center text-text-muted transition-all duration-300">
+          <i data-lucide="github" class="w-3.5 h-3.5"></i>
+        </a>
+        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="w-8 h-8 rounded-full bg-white/5 hover:bg-primary-cyan/10 hover:text-primary-cyan border border-white/10 flex items-center justify-center text-text-muted transition-all duration-300">
+          <i data-lucide="linkedin" class="w-3.5 h-3.5"></i>
+        </a>
+        <a href="mailto:sushma.sharma.it@gmail.com" class="w-8 h-8 rounded-full bg-white/5 hover:bg-primary-cyan/10 hover:text-primary-cyan border border-white/10 flex items-center justify-center text-text-muted transition-all duration-300">
+          <i data-lucide="mail" class="w-3.5 h-3.5"></i>
+        </a>
+        <a href="tel:+910000000000" class="w-8 h-8 rounded-full bg-white/5 hover:bg-primary-cyan/10 hover:text-primary-cyan border border-white/10 flex items-center justify-center text-text-muted transition-all duration-300">
+          <i data-lucide="phone" class="w-3.5 h-3.5"></i>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- CDNs of libraries -->
+  
+  <!-- GSAP Core -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  
+  <!-- Lenis Scroll -->
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Confetti script -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  
+  <!-- Custom scripts app logic -->
+  <script src="app.js"></script>
+  <script>
+    // Initialize Lucide Icons initially
+    lucide.createIcons();
+  </script>
+</body>
+</html>
